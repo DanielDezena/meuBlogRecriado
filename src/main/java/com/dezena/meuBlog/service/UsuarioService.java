@@ -19,40 +19,42 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	public Optional<Usuario> CadastrarUsuario(Usuario usuario){
-		if (usuarioRepository.findByEmail(usuario.getEmail_usuario()).isPresent())
+	public Optional<Usuario> cadastrarUsuario(Usuario usuario){
+		if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent())
 			return Optional.empty();
-		usuario.setSenha_usuario(CriptografarSenha(usuario.getSenha_usuario()));
+		usuario.setSenha(CriptografarSenha(usuario.getSenha()));
 		return Optional.of(usuarioRepository.save(usuario));
 	}
 	
-	public Optional<UserLogin> AutenticarUsuario(Optional<UserLogin> userLogin){
-		Optional<Usuario> usuario = usuarioRepository.findByEmail(userLogin.get().getUsuario());
+	public Optional<UserLogin> autenticarUsuario(Optional<UserLogin> userLogin){
+		Optional<Usuario> usuario = usuarioRepository.findByEmail(userLogin.get().getEmail());
 		
 		if (usuario.isPresent()) {
-			if(CompararSenhas(userLogin.get().getSenha(), usuario.get().getSenha_usuario())) {
-				String token = GerarBasicToken(userLogin.get().getUsuario(), userLogin.get().getSenha());
+			if(CompararSenhas(userLogin.get().getSenha(), usuario.get().getSenha())) {
+				String token = GerarBasicToken(userLogin.get().getEmail(), userLogin.get().getSenha());
 				
 				userLogin.get().setId(usuario.get().getId());
-				userLogin.get().setNome(usuario.get().getNome_usuario());
-				userLogin.get().setUsuario(usuario.get().getEmail_usuario());
-				userLogin.get().setSenha(usuario.get().getSenha_usuario());
-				userLogin.get().setTipo(usuario.get().getTipo_usuario());
-				userLogin.get().setFoto(usuario.get().getPfp_usuario());
+				userLogin.get().setNome(usuario.get().getNome());
+				userLogin.get().setEmail(usuario.get().getEmail());
+				userLogin.get().setSenha(usuario.get().getSenha());
+				userLogin.get().setTipo(usuario.get().getTipo());
+				userLogin.get().setFoto(usuario.get().getPfp());
 				userLogin.get().setToken(token);
+				
+				return userLogin;
 			}
 		}
 		return Optional.empty();
 	}
 	
-	public Optional<Usuario> AtualizarUsuario(Usuario usuario){
-		if (usuarioRepository.findByEmail(usuario.getEmail_usuario()).isPresent()) {
-			Optional<Usuario> buscaUsuario = usuarioRepository.findByEmail(usuario.getEmail_usuario());
+	public Optional<Usuario> atualizarUsuario(Usuario usuario){
+		if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
+			Optional<Usuario> buscaUsuario = usuarioRepository.findByEmail(usuario.getEmail());
 			if(buscaUsuario.isPresent()) {
 				if(buscaUsuario.get().getId() != usuario.getId()) {
 					return Optional.empty();
 				}
-				usuario.setSenha_usuario(CriptografarSenha(usuario.getSenha_usuario()));
+				usuario.setSenha(CriptografarSenha(usuario.getSenha()));
 				return Optional.of(usuarioRepository.save(usuario));
 			}
 		}

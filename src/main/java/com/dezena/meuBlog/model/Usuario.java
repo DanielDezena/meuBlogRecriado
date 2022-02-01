@@ -39,18 +39,13 @@ public class Usuario {
 	
 	private String tipo;
 	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("usuario")
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("comentarios")
 	private List<Comentarios> comentarios;
 	
-	@OneToMany(mappedBy= "usuario", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy= "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
-	
-	@OneToMany(mappedBy= "usuario", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("usuario")
-	private List<Tema> tema;
-	
 	
 
 	public long getId() {
@@ -61,44 +56,44 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public String getNome_usuario() {
+	public String getNome() {
 		return nome;
 	}
 
-	public void setNome_usuario(String nome_usuario) {
-		this.nome = nome_usuario;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public String getEmail_usuario() {
+	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail_usuario(String email_usuario) {
-		this.email = email_usuario;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getSenha_usuario() {
+	public String getSenha() {
 		return senha;
 	}
 
-	public void setSenha_usuario(String senha_usuario) {
-		this.senha = senha_usuario;
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
-	public String getPfp_usuario() {
+	public String getPfp() {
 		return pfp;
 	}
 
-	public void setPfp_usuario(String pfp_usuario) {
-		this.pfp = pfp_usuario;
+	public void setPfp(String pfp) {
+		this.pfp = pfp;
 	}
 
-	public String getTipo_usuario() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo_usuario(String tipo_usuario) {
-		this.tipo = tipo_usuario;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public List<Comentarios> getComentarios() {
@@ -117,14 +112,10 @@ public class Usuario {
 		this.postagem = postagem;
 	}
 
-	public List<Tema> getTema() {
-		return tema;
-	}
 
-	public void setTema(List<Tema> tema) {
-		this.tema = tema;
-	}
+	
 
+	
 	
 	
 	
